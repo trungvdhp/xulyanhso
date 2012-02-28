@@ -456,7 +456,10 @@ namespace XuLyAnh
 
         private void dgvResult_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
         {
-            e.Column.Width = 45;
+            if (btnShowInput.Text == "Xem vùng ảnh kết quả")
+                e.Column.Width = 60;
+            else if (btnShowInput.Text == "Xem Histogram kết quả")
+                e.Column.Width = 45;
         }
     }
 }

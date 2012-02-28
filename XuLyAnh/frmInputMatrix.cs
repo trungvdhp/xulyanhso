@@ -18,6 +18,12 @@ namespace XuLyAnh
             flag = false;
         }
 
+        public frmInputMatrix(bool f)
+        {
+            InitializeComponent();
+            flag = f;
+        }
+
         public void init()
         {
             matrix = new DataTable();
@@ -94,7 +100,9 @@ namespace XuLyAnh
             {
                 if (matrix.Rows[matrix.Rows.Count / 2][matrix.Columns.Count / 2].ToString()== "0")
                 {
-                    MessageBox.Show("Tâm phải lớn hơn 0");
+                    MessageBox.Show("Tâm phải khác 0");
+                    dgvInput.Focus();
+                    dgvInput.Rows[matrix.Rows.Count / 2].Cells[matrix.Columns.Count / 2].Selected = true;
                     return;
                 }
                 int sum = 0;
@@ -108,6 +116,7 @@ namespace XuLyAnh
                 if (sum != 0)
                 {
                     MessageBox.Show("Tổng các hệ số phải bằng 0");
+                    dgvInput.Focus();
                     return;
                 }
             }

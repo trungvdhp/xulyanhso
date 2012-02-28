@@ -9,7 +9,7 @@ using System.Drawing.Imaging;
 
 namespace XuLyAnh
 {
-    public partial class frnMain : Form
+    public partial class frmMain : Form
     {
         DataSet dsInput = new DataSet();
         DataSet dsResult = new DataSet();
@@ -28,7 +28,7 @@ namespace XuLyAnh
         int grayLevel = 256;
         bool modified = false;
 
-        public frnMain()
+        public frmMain()
         {
             InitializeComponent();
         }
@@ -330,6 +330,8 @@ namespace XuLyAnh
             if(op.ShowDialog()==DialogResult.OK)
             {
                 imgInput = new ImageProc(op.FileName);
+                nudHeight.Value = imgInput.Matrix.GetLength(0);
+                nudWidth.Value = imgInput.Matrix.GetLength(1);
                 dsInput = imgInput.ToDataSet();
                 bmpInput = imgInput.ToBitmap();
                 modified = false;
@@ -360,7 +362,7 @@ namespace XuLyAnh
 
         private void btnLocSacNet_Click(object sender, EventArgs e)
         {
-            frmInputMatrix frm = new frmInputMatrix();
+            frmInputMatrix frm = new frmInputMatrix(true);
             if (filter.Rows.Count == 0)
             {
                 filter = imgFilter.ToMatrixTable(true);
@@ -446,7 +448,10 @@ namespace XuLyAnh
 
         private void dgvInput_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
         {
-            e.Column.Width = 45;
+            if (btnShowInput.Text == "Xem vùng ảnh nguồn")
+                e.Column.Width = 60;
+            else if (btnShowInput.Text == "Xem Histogram nguồn")
+                e.Column.Width = 45;
         }
 
         private void dgvResult_ColumnAdded(object sender, DataGridViewColumnEventArgs e)

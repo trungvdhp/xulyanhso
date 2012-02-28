@@ -10,7 +10,7 @@ namespace XuLyAnh
     class ImageProc
     {
         private int[,] matrix;
-        private List<double[]> histogram;
+        private double[,] histogram;
         private int[] lookup = new int[256];
 
         public int[,] Matrix
@@ -19,7 +19,7 @@ namespace XuLyAnh
             set { matrix = value; }
         }
 
-        public List<double[]> Histogram
+        public double[,] Histogram
         {
             get { return histogram; }
             set { histogram = value; }
@@ -28,7 +28,7 @@ namespace XuLyAnh
         public ImageProc()
         {
             matrix = new int[0, 0];
-            histogram = new List<double[]>();
+            histogram = new double[256,5];
         }
 
         public ImageProc(int height, int width)
@@ -83,22 +83,24 @@ namespace XuLyAnh
             h = dv.ToTable();
             double pixelCount = 0;
             double p = 0;
-            histogram = new List<double[]>();
+            int k;
+            histogram = new double[256, 5];
             for (int i = 0; i < h.Rows.Count; ++i)
             {
-                double[] it = new double[6];
-                it[0] = Convert.ToDouble(h.Rows[i][0]);
-                it[1] = Convert.ToDouble(h.Rows[i][1]);
-                pixelCount += it[1];
-                histogram.Add(it);
+                k = Convert.ToInt16(h.Rows[i][0]);
+                histogram[k, 0] = Convert.ToDouble(h.Rows[i][1]);
+                p = histogram[k, 0] + p;
+                histogram[k, 2] = p;
+                histogram[k, 4] = k;
+                pixelCount += histogram[k, 0];
             }
-            for (int i = 0; i < h.Rows.Count; ++i)
+            for (int i = 0; i < 256; ++i)
             {
-                histogram[i][2] = histogram[i][1]/ pixelCount;
-                p += histogram[i][1];
-                histogram[i][3] = p;
-                histogram[i][4] = p/ pixelCount;
-                histogram[i][5] = histogram[i][0];
+                if(histogram[i, 0] > 0)
+                {
+                    histogram[i, 1] = histogram[i, 0] * 1.0 / pixelCount;
+                    histogram[i, 3] = histogram[i, 2] * 1.0 / pixelCount;
+                }
             }
         }
 
@@ -116,36 +118,30 @@ namespace XuLyAnh
             }
         }
 
-        public List<double[]> GetHistogram(int height, int width)
+        public double[,] GetHistogram(int height, int width)
         {
-            List<double[]> ls = new List<double[]>();
+            double[, ] d = new double[256, 5];
             int pixelCount = height * width;
-            int[] d = new int[256];
-            int p = 0;
-
+            double p = 0;
             for (int i = 0; i < height; ++i)
             {
                 for (int j = 0; j < width; ++j)
                 {
-                    d[matrix[i,j]]++;
+                    d[matrix[i,j], 0]++;
                 }
             }
             for (int i = 0; i < 256; ++i)
             {
-                if (d[i] != 0)
+                if (d[i, 0] != 0)
                 {
-                    double[] h = new double[6];
-                    h[0] = i;
-                    h[1] = d[i];
-                    h[2] = d[i] * 1.0 / pixelCount;
-                    p += d[i];
-                    h[3] = p;
-                    h[4] = p * 1.0 / pixelCount;
-                    h[5] = i;
-                    ls.Add(h);
+                    d[i, 1] = d[i, 0] * 1.0 / pixelCount;
+                    p += d[i, 0];
+                    d[i, 2] = p;
+                    d[i, 3] = p * 1.0 / pixelCount;
+                    d[i, 4] = i;
                 }
             }
-            return ls;
+            return d;
         }
 
         public ImageProc Clone()
@@ -172,7 +168,7 @@ namespace XuLyAnh
             return img;
         }
 
-        public int Find(object level)
+        /*public int Find(object level)
         {
             for (int i = 0; i < histogram.Count; ++i)
             {
@@ -180,7 +176,7 @@ namespace XuLyAnh
                     return i;
             }
             return -1;
-        }
+        }*/
 
         public ImageProc GetNegativeImage()
         {
@@ -197,7 +193,7 @@ namespace XuLyAnh
                 for (int j = 0; j < width; ++j)
                 {
                     imgResult.matrix[i, j] = lookup[matrix[i, j]];
-                    this.histogram[Find(matrix[i, j])][5] = imgResult.matrix[i, j];
+                    histogram[matrix[i, j],4] = imgResult.matrix[i, j];
                 }
             }
             imgResult.histogram = imgResult.GetHistogram(height, width);
@@ -246,7 +242,7 @@ namespace XuLyAnh
                         }
                     }
                     ls.Sort();
-                    this.histogram[Find(matrix[i + h1, j + w1])][5] = ls[m];
+                    histogram[matrix[i + h1, j + w1], 4] = ls[m];
                     imgResult.matrix[i + h1, j + w1] = ls[m];
                 }
             }
@@ -275,7 +271,7 @@ namespace XuLyAnh
                 for (int j = 0; j < width; ++j)
                 {
                     k = GetS(s1, r1, s2, r2, matrix[i,j]);
-                    histogram[Find(matrix[i,j])][5] = k;
+                    histogram[matrix[i,j], 4] = k;
                     imgResult.matrix[i,j] = k;
                 }
             }
@@ -286,24 +282,22 @@ namespace XuLyAnh
         public ImageProc HistogramEqualization(int L)
         {
             ImageProc imgResult = this.Clone();
-            int height = histogram.Count;
             int width = matrix.GetLength(1);
-            int k;
 
-            for (int i = 0; i < height; ++i)
+            for (int i = 0; i < 256; ++i)
             {
-                this.histogram[i][5] = (int)Math.Round(this.histogram[i][4]* (L - 1));
+                if(histogram[i, 0] != 0)
+                    histogram[i, 4] = (int)Math.Round(histogram[i, 3]* (L - 1));
             }
 
-            height = matrix.GetLength(0);
+            int height = matrix.GetLength(0);
             for (int i = 0; i < height; ++i)
             {
                 for (int j = 0; j < width; ++j)
                 {
                     if (matrix[i, j] < L)
                     {
-                        if ((k = Find(matrix[i, j])) != -1)
-                            imgResult.matrix[i, j] = (int)this.histogram[k][5];
+                        imgResult.matrix[i, j] = (int)histogram[matrix[i, j], 4];
                     }
                     else
                     {
@@ -320,31 +314,33 @@ namespace XuLyAnh
             ImageProc imgResult = this.Clone();
             int height = matrix.GetLength(0);
             int width = matrix.GetLength(1);
-            int L = histogram.Count;
-            int k;
-            double min, x, y, rs=0;
-            for (int i = 0; i < L; ++i)
+            double min, y, rs=0;
+            for (int i = 0; i < 256; ++i)
             {
-                x = histogram[i][4];
-                min = 1;
-                for (int j = 0; j < h.histogram.Count; ++j)
+                if (histogram[i, 0] != 0)
                 {
-                    y = h.histogram[j][4];
-                    if((y=Math.Abs(x-y)) < min)
+                    min = 1;
+                    for (int j = 0; j < 256; ++j)
                     {
-                        min = y;
-                        rs = (int)h.histogram[j][0];
+                        if(h.histogram[j, 0] != 0)
+                        {
+                            if ((y = Math.Abs(histogram[i, 3] - h.histogram[i, 3])) < min)
+                            {
+                                min = y;
+                                rs = j;
+                            }
+                        } 
                     }
+                    histogram[i, 4] = rs;
                 }
-                histogram[i][5] = rs;
             }
 
             for (int i = 0; i < height; ++i)
             {
                 for (int j = 0; j < width; ++j)
                 {
-                    if ((k = Find(matrix[i,j])) != -1)
-                        imgResult.matrix[i,j] = (int)this.histogram[k][5];
+                    if (histogram[matrix[i,j], 0] != 0)
+                        imgResult.matrix[i,j] = (int)histogram[matrix[i, j], 4];
                 }
             }
 
@@ -402,13 +398,13 @@ namespace XuLyAnh
                     {
                         for (int v = 0; v < width; ++v)
                         {
-                            t += m.matrix[u, v] * this.matrix[u + i, v + j];
+                            t += m.matrix[u, v] * matrix[u + i, v + j];
                         }
                     }
                     t /= sum;
                     t = Math.Round(t);
                     if (t < 0 || t > 255) t = matrix[i + h1, j + w1];
-                    this.histogram[Find(matrix[i + h1, j + w1])][5] = t;
+                    histogram[matrix[i + h1, j + w1], 4] = t;
                     imgResult.matrix[i + h1, j + w1] = (int)t;
                 }
             }
@@ -458,7 +454,7 @@ namespace XuLyAnh
                     {
                         for (int v = 0; v < width; ++v)
                         {
-                            t += m.matrix[u, v] * this.matrix[u + i, v + j];
+                            t += m.matrix[u, v] * matrix[u + i, v + j];
                         }
                     }
                     if (t < 0 || t > 255) t = 0;
@@ -467,7 +463,7 @@ namespace XuLyAnh
                     else
                         t += matrix[i + h1, j + w1];
                     if (t < 0 || t > 255) t = matrix[i + h1, j + w1];
-                    this.histogram[Find(matrix[i + h1, j + w1])][5] = t;
+                    histogram[matrix[i + h1, j + w1], 4] = t;
                     imgResult.matrix[i + h1, j + w1] = t;
                 }
             }
@@ -523,7 +519,6 @@ namespace XuLyAnh
 
         public DataTable ToHistogramTable()
         {
-            int height = histogram.Count;
             DataTable dt = new DataTable();
             dt.Columns.Add("Mức xám");
             dt.Columns[0].DataType = Type.GetType("System.Int16");
@@ -532,16 +527,19 @@ namespace XuLyAnh
             dt.Columns.Add("Tổng số pixel");
             dt.Columns.Add("Tổng tần suất");
             dt.Columns.Add("Ánh xạ");
-            for (int i = 0; i < height; ++i)
+            for (int i = 0; i < 256; ++i)
             {
-                DataRow dr = dt.NewRow();
-                dr[0] = histogram[i][0];
-                dr[1] = histogram[i][1];
-                dr[2] = String.Format("{0:0.0000}",histogram[i][2]);
-                dr[3] = histogram[i][3];
-                dr[4] = String.Format("{0:0.0000}", histogram[i][4]);
-                dr[5] = histogram[i][5];
-                dt.Rows.Add(dr);
+                if (histogram[i, 0] != 0)
+                {
+                    DataRow dr = dt.NewRow();
+                    dr[0] = i;
+                    dr[1] = histogram[i, 0];
+                    dr[2] = String.Format("{0:0.0000}", histogram[i, 1]);
+                    dr[3] = histogram[i, 2];
+                    dr[4] = String.Format("{0:0.0000}", histogram[i, 3]);
+                    dr[5] = histogram[i, 4];
+                    dt.Rows.Add(dr);
+                }
             }
             return dt;
         }

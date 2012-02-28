@@ -291,6 +291,8 @@
             this.dgvInput.Size = new System.Drawing.Size(434, 694);
             this.dgvInput.TabIndex = 12;
             this.dgvInput.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInput_CellValueChanged);
+            this.dgvInput.CurrentCellChanged += new System.EventHandler(this.dgvInput_CurrentCellChanged);
+            this.dgvInput.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvInput_DataError);
             this.dgvInput.DataSourceChanged += new System.EventHandler(this.dgvInput_DataSourceChanged);
             this.dgvInput.ColumnAdded += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvInput_ColumnAdded);
             // 
@@ -438,6 +440,7 @@
             this.dgvResult.RowTemplate.Height = 32;
             this.dgvResult.Size = new System.Drawing.Size(438, 694);
             this.dgvResult.TabIndex = 17;
+            this.dgvResult.CurrentCellChanged += new System.EventHandler(this.dgvResult_CurrentCellChanged);
             this.dgvResult.DataSourceChanged += new System.EventHandler(this.dgvResult_DataSourceChanged);
             this.dgvResult.ColumnAdded += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvResult_ColumnAdded);
             // 

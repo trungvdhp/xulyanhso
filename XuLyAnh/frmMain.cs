@@ -38,121 +38,6 @@ namespace XuLyAnh
             
         }
 
-        private void ShowInput()
-        {
-            if (dsInput.Tables.Count > 0)
-            {
-                if (modified == true)
-                {
-                    imgInput = new ImageProc((DataTable)dgvInput.DataSource);
-                    dsInput = imgInput.ToDataSet();
-                    bmpInput = imgInput.ToBitmap();
-                }
-                if (btnShowInput.Text == "Xem Histogram nguồn")
-                {
-                    dgvInput.Columns[0].Visible = false;
-                    dgvInput.DataSource = dsInput.Tables[0];
-                }
-                else if (btnShowInput.Text == "Xem vùng ảnh nguồn")
-                {
-                    dgvInput.Columns[0].Visible = false;
-                    dgvInput.DataSource = dsInput.Tables[1];
-                }
-                else
-                {
-                    dgvInput.DataSource = null;
-                    dgvInput.Columns[0].Visible = true;
-                    dgvInput.Rows.Clear();
-                    dgvInput.Rows.Add();
-                    dgvInput.Rows[0].Height = dsInput.Tables[0].Rows.Count;
-                    dgvInput.Columns[0].Width = dsInput.Tables[0].Columns.Count;
-                    dgvInput.Rows[0].Cells[0].Value = bmpInput;
-                }
-            }
-            modified = false;
-        }
-
-        private void Calc()
-        {
-            if (dsInput.Tables.Count > 0 && imgResult.Matrix != null)
-            {
-                dsInput.Tables.RemoveAt(1);
-                dsInput.Tables.Add(imgInput.ToHistogramTable());
-                dsResult = imgResult.ToDataSet();
-                bmpResult = imgResult.ToBitmap();
-            }
-        }
-
-        private void ShowResult()
-        {
-            if (dsInput.Tables.Count > 0 && imgResult.Matrix != null && dsResult.Tables.Count>0)
-            {
-                if (btnShowInput.Text == "Xem vùng ảnh nguồn")
-                {
-                    dgvInput.Columns[0].Visible = false;
-                    dgvInput.DataSource = dsInput.Tables[1];
-                }
-
-                if (btnShowResult.Text == "Xem Histogram kết quả")
-                {
-                    dgvResult.Columns[0].Visible = false;
-                    dgvResult.DataSource = dsResult.Tables[0];
-                }
-                else if (btnShowResult.Text == "Xem vùng ảnh kết quả")
-                {
-                    dgvResult.Columns[0].Visible = false;
-                    dgvResult.DataSource = dsResult.Tables[1];
-                }
-                else
-                {
-                    dgvResult.DataSource = null;
-                    dgvResult.Columns[0].Visible = true;
-                    dgvResult.Rows.Clear();
-                    dgvResult.Rows.Add();
-                    dgvResult.Rows[0].Height = dsResult.Tables[0].Rows.Count;
-                    dgvResult.Columns[0].Width = dsResult.Tables[0].Columns.Count;
-                    dgvResult.Rows[0].Cells[0].Value = bmpResult;
-                }
-            }
-        }
-
-        private void btnGen_Click(object sender, EventArgs e)
-        {
-            int width = Convert.ToInt16(nudWidth.Value);
-            int height = Convert.ToInt16(nudHeight.Value);
-            imgInput = new ImageProc(height, width);
-            dsInput = imgInput.ToDataSet();
-            bmpInput = imgInput.ToBitmap();
-            modified = false;
-            ShowInput();
-        }
-
-        private void btnTaoAnhAmBan_Click(object sender, EventArgs e)
-        {
-            imgResult = imgInput.GetNegativeImage();
-            Calc();
-            ShowResult();
-            btnStatus.Visible = false;
-            lblInput.Text = "Tạo ảnh xám";
-        }
-
-        private void btnLocTrungVi_Click(object sender, EventArgs e)
-        {
-            frmInputMask frm = new frmInputMask();
-            frm.nudHeight.Value = height;
-            frm.nudWidth.Value = width;
-            if(frm.ShowDialog() == DialogResult.OK)
-            {
-                width = Convert.ToInt16(frm.nudWidth.Value);
-                height = Convert.ToInt16(frm.nudHeight.Value);
-                imgResult = imgInput.Medfilt(width, height);
-                Calc();
-                ShowResult();
-                btnStatus.Visible = false;
-                lblInput.Text = "Bộ lọc trung vị " + height + "x" + width;
-            }
-        }
-
         private void dgvInput_DataSourceChanged(object sender, EventArgs e)
         {
             for (int i = 0; i < dgvInput.ColumnCount; ++i)
@@ -162,16 +47,6 @@ namespace XuLyAnh
             for (int i = 1; i <= dgvInput.RowCount; ++i)
                 dgvInput.Rows[i - 1].HeaderCell.Value = i.ToString();
             modified = false;
-        }
-
-        private void dgvResult_DataSourceChanged(object sender, EventArgs e)
-        {
-            for (int i = 0; i < dgvResult.ColumnCount; ++i)
-            {
-                dgvResult.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-            }
-            for (int i = 1; i <= dgvResult.RowCount; ++i)
-                dgvResult.Rows[i - 1].HeaderCell.Value = i.ToString();
         }
 
         private void dgvInput_CurrentCellChanged(object sender, EventArgs e)
@@ -185,129 +60,50 @@ namespace XuLyAnh
             }
         }
 
-        private void nudWidth_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-                btnGen.PerformClick();
-        }
-
-        private void btnDanDoTuongPhan_Click(object sender, EventArgs e)
-        {
-            frmInputContrast frm = new frmInputContrast();
-            frm.nudS1.Value = s1;
-            frm.nudS2.Value = s2;
-            frm.nudR1.Value = r1;
-            frm.nudR2.Value = r2;
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
-                s1 = Convert.ToInt16(frm.nudS1.Value);
-                r1 = Convert.ToInt16(frm.nudR1.Value);
-                s2 = Convert.ToInt16(frm.nudS2.Value);
-                r2 = Convert.ToInt16(frm.nudR2.Value);
-                imgResult = imgInput.ContrastStretching(s1, r1, s2, r2);
-                Calc();
-                ShowResult();
-                btnStatus.Visible = false;
-                lblInput.Text = "Dãn độ tương phản: (S1 ; R1) = (" + s1 + " ; " + r1 + ") ; (S2 ; R2) = (" + s2 + " ; " + r2 + ")";
-            }
-        }
-
-        private void btnCanBangHistogram_Click(object sender, EventArgs e)
-        {
-            frmInputGrayLevel frm = new frmInputGrayLevel();
-            frm.nudGrayLevel.Value = grayLevel;
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
-                grayLevel = Convert.ToInt16(frm.nudGrayLevel.Value);
-                imgResult = imgInput.HistogramEqualization(grayLevel);
-                Calc();
-                ShowResult();
-                btnStatus.Visible = false;
-                lblInput.Text = "Cân bằng Histogram: L = " + grayLevel;
-            }
-        }
-
-        private void btnShowInput_Click(object sender, EventArgs e)
-        {
-            bool c = btnStatus.Visible;
-            if (btnShowInput.Text == "Xem Histogram nguồn")
-            {
-                btnShowInput.Text = "Xem vùng ảnh nguồn";
-            }
-            else if (btnShowInput.Text == "Xem ma trận nguồn")
-            {
-                btnShowInput.Text = "Xem Histogram nguồn";
-            }
-            else
-            {
-                btnShowInput.Text = "Xem ma trận nguồn";
-            }
-            ShowInput();
-            btnStatus.Visible = c;
-        }
-
-        private void btnShowResult_Click(object sender, EventArgs e)
-        {
-            if (btnShowResult.Text == "Xem Histogram kết quả")
-            {
-                btnShowResult.Text = "Xem vùng ảnh kết quả";
-            }
-            else if (btnShowResult.Text == "Xem ma trận kết quả")
-            {
-                btnShowResult.Text = "Xem Histogram kết quả";
-            }
-            else
-            {
-                btnShowResult.Text = "Xem ma trận kết quả";
-            }
-            ShowResult();
-        }
-
-        private void btnShowHistogramX_Click(object sender, EventArgs e)
-        {
-            frmShowHistogram frm = new frmShowHistogram();
-            frm.dgvHistogram.DataSource = histogramX;
-            frm.Text += " X";
-            frm.ShowDialog();
-        }
-
-        private void btnHistogramSpecification_Click(object sender, EventArgs e)
-        {
-            frmInputHistogram frm = new frmInputHistogram();
-            if(histogramX.Rows.Count == 0)
-            {
-                histogramX = imgHistogramX.ToHistogramTable();
-                DataRow dr = histogramX.NewRow();
-                dr[0] = 0;
-                dr[1] = 1;
-                histogramX.Rows.Add(dr);
-            }
-            frm.dgvInputX.DataSource = histogramX.Copy();
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
-                imgHistogramX.DataTableToHistogram((DataTable)frm.dgvInputX.DataSource);
-                histogramX = imgHistogramX.ToHistogramTable();
-                imgResult = imgInput.HistogramSpecification(imgHistogramX);
-                Calc();
-                ShowResult();
-                btnStatus.Visible = false;
-                lblInput.Text = "Xử lý Matching";
-            }
-        }
-
-        private void btnStatus_Click(object sender, EventArgs e)
-        {
-        }
-
         private void dgvInput_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             btnStatus.Visible = true;
-            modified = true;//đã có sự thay đổi trên datagridview do đó phải chuyển từ datagridview vào matrix
+            modified = true;
         }
 
-        private void rdbMatrix_CheckedChanged(object sender, EventArgs e)
+        private void dgvInput_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
         {
-            dgvInput.Columns[0].Visible = false;
+            if (btnShowInput.Text == "Xem vùng ảnh nguồn")
+            {
+                e.Column.Width = 65;
+            }
+            else if (btnShowInput.Text == "Xem Histogram nguồn")
+            {
+                e.Column.Width = 40;
+            }
+        }
+
+        private void dgvInput_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show("Mức xám phải >= 0 và <= 255", "Lỗi nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            e.Cancel = true;
+        }
+
+        private void dgvResult_DataSourceChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < dgvResult.ColumnCount; ++i)
+            {
+                dgvResult.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+            for (int i = 1; i <= dgvResult.RowCount; ++i)
+                dgvResult.Rows[i - 1].HeaderCell.Value = i.ToString();
+        }
+
+        private void dgvResult_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
+        {
+            if (btnShowResult.Text == "Xem vùng ảnh kết quả")
+            {
+                e.Column.Width = 65;
+            }
+            else if (btnShowResult.Text == "Xem Histogram kết quả")
+            {
+                e.Column.Width = 40;
+            }
         }
 
         private void dgvResult_CurrentCellChanged(object sender, EventArgs e)
@@ -321,13 +117,27 @@ namespace XuLyAnh
             }
         }
 
+        private void nudWidth_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                btnGen.PerformClick();
+        }
+
+        private void btnShowHistogramX_Click(object sender, EventArgs e)
+        {
+            frmShowHistogram frm = new frmShowHistogram();
+            frm.dgvHistogram.DataSource = histogramX;
+            frm.Text += " X";
+            frm.ShowDialog();
+        }
+
         private void btnOpen_Click(object sender, EventArgs e)
         {
             OpenFileDialog op = new OpenFileDialog();
             op.Filter = "All picture files|*.bmp;*.jpg;*.jpeg;*.png;*.gif;*.ico|Bitmap Files|*.bmp|JPEG|*.jpg|PNG|*.png|GIF|*.gif|ICO|*.ico";
             op.Multiselect = false;
             op.Title = "Open an Image File";
-            if(op.ShowDialog()==DialogResult.OK)
+            if (op.ShowDialog() == DialogResult.OK)
             {
                 imgInput = new ImageProc(op.FileName);
                 nudHeight.Value = imgInput.Matrix.GetLength(0);
@@ -336,48 +146,6 @@ namespace XuLyAnh
                 bmpInput = imgInput.ToBitmap();
                 modified = false;
                 ShowInput();
-            }
-        }
-
-        private void btnLocThongThap_Click(object sender, EventArgs e)
-        {
-            frmInputMatrix frm = new frmInputMatrix();
-            if (filter.Rows.Count == 0)
-            {
-                filter = imgFilter.ToMatrixTable(true);
-            }
-            frm.dgvInput.DataSource = filter.Copy();
-            frm.Text += " THÔNG THẤP";
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
-                imgFilter.DataTableToMatrix((DataTable)frm.dgvInput.DataSource);
-                filter = imgFilter.ToMatrixTable(true);
-                imgResult = imgInput.LowPassFilter(imgFilter);
-                Calc();
-                ShowResult();
-                btnStatus.Visible = false;
-                lblInput.Text = "Bộ lọc thông thấp";
-            }
-        }
-
-        private void btnLocSacNet_Click(object sender, EventArgs e)
-        {
-            frmInputMatrix frm = new frmInputMatrix(true);
-            if (filter.Rows.Count == 0)
-            {
-                filter = imgFilter.ToMatrixTable(true);
-            }
-            frm.dgvInput.DataSource = filter.Copy();
-            frm.Text += " SẮC NÉT";
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
-                imgFilter.DataTableToMatrix((DataTable)frm.dgvInput.DataSource);
-                filter = imgFilter.ToMatrixTable(true);
-                imgResult = imgInput.SharpeningFilter(imgFilter);
-                Calc();
-                ShowResult();
-                btnStatus.Visible = false;
-                lblInput.Text = "Bộ lọc sắc nét";
             }
         }
 
@@ -449,27 +217,275 @@ namespace XuLyAnh
             SaveImage(bmpResult);
         }
 
-        private void dgvInput_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
+        private void btnShowInput_Click(object sender, EventArgs e)
         {
-            if (btnShowInput.Text == "Xem vùng ảnh nguồn")
+            bool c = btnStatus.Visible;
+            if (btnShowInput.Text == "Xem Histogram nguồn")
             {
-                e.Column.Width = 65;
+                btnShowInput.Text = "Xem vùng ảnh nguồn";
             }
-            else if (btnShowInput.Text == "Xem Histogram nguồn")
+            else if (btnShowInput.Text == "Xem ma trận nguồn")
             {
-                e.Column.Width = 40;
+                btnShowInput.Text = "Xem Histogram nguồn";
+            }
+            else
+            {
+                btnShowInput.Text = "Xem ma trận nguồn";
+            }
+            ShowInput();
+            btnStatus.Visible = c;
+        }
+
+        private void btnShowResult_Click(object sender, EventArgs e)
+        {
+            if (btnShowResult.Text == "Xem Histogram kết quả")
+            {
+                btnShowResult.Text = "Xem vùng ảnh kết quả";
+            }
+            else if (btnShowResult.Text == "Xem ma trận kết quả")
+            {
+                btnShowResult.Text = "Xem Histogram kết quả";
+            }
+            else
+            {
+                btnShowResult.Text = "Xem ma trận kết quả";
+            }
+            ShowResult();
+        }
+
+        private void ShowInput()
+        {
+            if (dsInput.Tables.Count > 0)
+            {
+                if (btnShowInput.Text == "Xem Histogram nguồn")
+                {
+                    dgvInput.Columns[0].Visible = false;
+                    dgvInput.DataSource = dsInput.Tables[0];
+                    dgvInput.ReadOnly = false;
+                }
+                else if (btnShowInput.Text == "Xem vùng ảnh nguồn")
+                {
+                    dgvInput.Columns[0].Visible = false;
+                    dgvInput.DataSource = dsInput.Tables[1];
+                    dgvInput.ReadOnly = true;
+                }
+                else
+                {
+                    dgvInput.DataSource = null;
+                    dgvInput.Columns[0].Visible = true;
+                    dgvInput.Rows.Clear();
+                    dgvInput.Rows.Add();
+                    dgvInput.Rows[0].Height = dsInput.Tables[0].Rows.Count;
+                    dgvInput.Columns[0].Width = dsInput.Tables[0].Columns.Count;
+                    dgvInput.Rows[0].Cells[0].Value = bmpInput;
+                    dgvInput.ReadOnly = true;
+                }
             }
         }
 
-        private void dgvResult_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
+        private void ShowResult()
         {
-            if (btnShowResult.Text == "Xem vùng ảnh kết quả")
+            if (dsInput.Tables.Count > 0 && imgResult.Matrix != null && dsResult.Tables.Count>0)
             {
-                e.Column.Width = 65;
+                if (btnShowInput.Text == "Xem vùng ảnh nguồn")
+                {
+                    dgvInput.Columns[0].Visible = false;
+                    dgvInput.DataSource = dsInput.Tables[1];
+                }
+
+                if (btnShowResult.Text == "Xem Histogram kết quả")
+                {
+                    dgvResult.Columns[0].Visible = false;
+                    dgvResult.DataSource = dsResult.Tables[0];
+                }
+                else if (btnShowResult.Text == "Xem vùng ảnh kết quả")
+                {
+                    dgvResult.Columns[0].Visible = false;
+                    dgvResult.DataSource = dsResult.Tables[1];
+                }
+                else
+                {
+                    dgvResult.DataSource = null;
+                    dgvResult.Columns[0].Visible = true;
+                    dgvResult.Rows.Clear();
+                    dgvResult.Rows.Add();
+                    dgvResult.Rows[0].Height = dsResult.Tables[0].Rows.Count;
+                    dgvResult.Columns[0].Width = dsResult.Tables[0].Columns.Count;
+                    dgvResult.Rows[0].Cells[0].Value = bmpResult;
+                }
             }
-            else if (btnShowResult.Text == "Xem Histogram kết quả")
+        }
+
+        private void PrepareInput()
+        {
+            if (modified == true && imgResult.Matrix != null)
             {
-                e.Column.Width = 40;
+                imgInput = new ImageProc((DataTable)dgvInput.DataSource);
+                dsInput = imgInput.ToDataSet();
+                bmpInput = imgInput.ToBitmap();
+                modified = false;
+            }
+        }
+
+        private void PrepareResult()
+        {
+            if (imgResult.Matrix != null)
+            {
+                dsResult = imgResult.ToDataSet();
+                bmpResult = imgResult.ToBitmap();
+                btnStatus.Visible = false;
+            }
+        }
+
+        private void ChangeInputHistogram()
+        {
+            if (dsInput.Tables.Count > 0)
+            {
+                dsInput.Tables.RemoveAt(1);
+                dsInput.Tables.Add(imgInput.ToHistogramTable());
+            }
+        }
+
+        private void btnGen_Click(object sender, EventArgs e)
+        {
+            int width = Convert.ToInt16(nudWidth.Value);
+            int height = Convert.ToInt16(nudHeight.Value);
+            imgInput = new ImageProc(height, width);
+            dsInput = imgInput.ToDataSet();
+            bmpInput = imgInput.ToBitmap();
+            modified = false;
+            ShowInput();
+        }
+
+        private void btnTaoAnhAmBan_Click(object sender, EventArgs e)
+        {
+            PrepareInput();
+            imgResult = imgInput.GetNegativeImage();
+            ChangeInputHistogram();
+            PrepareResult();
+            ShowResult();
+            lblInput.Text = "Tạo ảnh xám";
+        }
+
+        private void btnDanDoTuongPhan_Click(object sender, EventArgs e)
+        {
+            frmInputContrast frm = new frmInputContrast();
+            frm.nudS1.Value = s1;
+            frm.nudS2.Value = s2;
+            frm.nudR1.Value = r1;
+            frm.nudR2.Value = r2;
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                PrepareInput();
+                s1 = Convert.ToInt16(frm.nudS1.Value);
+                r1 = Convert.ToInt16(frm.nudR1.Value);
+                s2 = Convert.ToInt16(frm.nudS2.Value);
+                r2 = Convert.ToInt16(frm.nudR2.Value);
+                imgResult = imgInput.ContrastStretching(s1, r1, s2, r2);
+                ChangeInputHistogram();
+                PrepareResult();
+                ShowResult();
+                lblInput.Text = "Dãn độ tương phản: (S1 ; R1) = (" + s1 + " ; " + r1 + ") ; (S2 ; R2) = (" + s2 + " ; " + r2 + ")";
+            }
+        }
+
+        private void btnCanBangHistogram_Click(object sender, EventArgs e)
+        {
+            frmInputGrayLevel frm = new frmInputGrayLevel();
+            frm.nudGrayLevel.Value = grayLevel;
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                PrepareInput();
+                grayLevel = Convert.ToInt16(frm.nudGrayLevel.Value);
+                imgResult = imgInput.HistogramEqualization(grayLevel);
+                ChangeInputHistogram();
+                PrepareResult();
+                ShowResult();
+                lblInput.Text = "Cân bằng Histogram: L = " + grayLevel;
+            }
+        }
+
+        private void btnHistogramSpecification_Click(object sender, EventArgs e)
+        {
+            frmInputHistogram frm = new frmInputHistogram();
+            if (histogramX.Rows.Count == 0)
+            {
+                histogramX = imgHistogramX.ToHistogramTable();
+                DataRow dr = histogramX.NewRow();
+                dr[0] = 0;
+                dr[1] = 1;
+                histogramX.Rows.Add(dr);
+            }
+            frm.dgvInputX.DataSource = histogramX.Copy();
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                PrepareInput();
+                imgHistogramX.DataTableToHistogram((DataTable)frm.dgvInputX.DataSource);
+                histogramX = imgHistogramX.ToHistogramTable();
+                imgResult = imgInput.HistogramSpecification(imgHistogramX);
+                ChangeInputHistogram();
+                PrepareResult();
+                ShowResult();
+                lblInput.Text = "Xử lý Matching";
+            }
+        }
+
+        private void btnLocTrungVi_Click(object sender, EventArgs e)
+        {
+            frmInputMask frm = new frmInputMask();
+            frm.nudHeight.Value = height;
+            frm.nudWidth.Value = width;
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                PrepareInput();
+                width = Convert.ToInt16(frm.nudWidth.Value);
+                height = Convert.ToInt16(frm.nudHeight.Value);
+                imgResult = imgInput.Medfilt(width, height);
+                PrepareResult();
+                ShowResult();
+                lblInput.Text = "Bộ lọc trung vị " + height + "x" + width;
+            }
+        }
+
+        private void btnLocThongThap_Click(object sender, EventArgs e)
+        {
+            frmInputMatrix frm = new frmInputMatrix();
+            if (filter.Rows.Count == 0)
+            {
+                filter = imgFilter.ToMatrixTable(true);
+            }
+            frm.dgvInput.DataSource = filter.Copy();
+            frm.Text += " THÔNG THẤP";
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                PrepareInput();
+                imgFilter.DataTableToMatrix((DataTable)frm.dgvInput.DataSource);
+                filter = imgFilter.ToMatrixTable(true);
+                imgResult = imgInput.LowPassFilter(imgFilter);
+                PrepareResult();
+                ShowResult();
+                lblInput.Text = "Bộ lọc thông thấp";
+            }
+        }
+
+        private void btnLocSacNet_Click(object sender, EventArgs e)
+        {
+            frmInputMatrix frm = new frmInputMatrix(true);
+            if (filter.Rows.Count == 0)
+            {
+                filter = imgFilter.ToMatrixTable(true);
+            }
+            frm.dgvInput.DataSource = filter.Copy();
+            frm.Text += " SẮC NÉT";
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                PrepareInput();
+                imgFilter.DataTableToMatrix((DataTable)frm.dgvInput.DataSource);
+                filter = imgFilter.ToMatrixTable(true);
+                imgResult = imgInput.SharpeningFilter(imgFilter);
+                PrepareResult();
+                ShowResult();
+                lblInput.Text = "Bộ lọc sắc nét";
             }
         }
     }

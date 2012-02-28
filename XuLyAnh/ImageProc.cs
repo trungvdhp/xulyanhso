@@ -186,14 +186,14 @@ namespace XuLyAnh
             lookup = new int[256];
             for (int i = 0; i < 256; ++i)
             {
-                lookup[i] = 255 - i;
+                if (histogram[i, 0] != 0)
+                    histogram[i, 4] = 255 - i;
             }
             for (int i = 0; i < height; ++i)
             {
                 for (int j = 0; j < width; ++j)
                 {
-                    imgResult.matrix[i, j] = lookup[matrix[i, j]];
-                    histogram[matrix[i, j],4] = imgResult.matrix[i, j];
+                    imgResult.matrix[i, j] = (int)histogram[matrix[i, j], 4];
                 }
             }
             imgResult.histogram = imgResult.GetHistogram(height, width);
@@ -534,9 +534,9 @@ namespace XuLyAnh
                     DataRow dr = dt.NewRow();
                     dr[0] = i;
                     dr[1] = histogram[i, 0];
-                    dr[2] = String.Format("{0:0.0000}", histogram[i, 1]);
+                    dr[2] = String.Format("{0:0.000000}", histogram[i, 1]);
                     dr[3] = histogram[i, 2];
-                    dr[4] = String.Format("{0:0.0000}", histogram[i, 3]);
+                    dr[4] = String.Format("{0:0.000000}", histogram[i, 3]);
                     dr[5] = histogram[i, 4];
                     dt.Rows.Add(dr);
                 }

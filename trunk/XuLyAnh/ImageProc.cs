@@ -11,6 +11,7 @@ namespace XuLyAnh
     {
         private int[,] matrix;
         private List<double[]> histogram;
+        private int[] lookup = new int[256];
 
         public int[,] Matrix
         {
@@ -23,6 +24,7 @@ namespace XuLyAnh
             get { return histogram; }
             set { histogram = value; }
         }
+
         public ImageProc()
         {
             matrix = new int[0, 0];
@@ -185,11 +187,16 @@ namespace XuLyAnh
             ImageProc imgResult = this.Clone();
             int height = matrix.GetLength(0);
             int width = matrix.GetLength(1);
+            lookup = new int[256];
+            for (int i = 0; i < 256; ++i)
+            {
+                lookup[i] = 255 - i;
+            }
             for (int i = 0; i < height; ++i)
             {
                 for (int j = 0; j < width; ++j)
                 {
-                    imgResult.matrix[i, j] = 255 - matrix[i, j];
+                    imgResult.matrix[i, j] = lookup[matrix[i, j]];
                     this.histogram[Find(matrix[i, j])][5] = imgResult.matrix[i, j];
                 }
             }
@@ -285,7 +292,7 @@ namespace XuLyAnh
 
             for (int i = 0; i < height; ++i)
             {
-                this.histogram[i][5] = (int)Math.Round(Convert.ToDouble(this.histogram[i][4])* (L - 1));
+                this.histogram[i][5] = (int)Math.Round(this.histogram[i][4]* (L - 1));
             }
 
             height = matrix.GetLength(0);
@@ -517,7 +524,6 @@ namespace XuLyAnh
         public DataTable ToHistogramTable()
         {
             int height = histogram.Count;
-            int width = 6;
             DataTable dt = new DataTable();
             dt.Columns.Add("Mức xám");
             dt.Columns[0].DataType = Type.GetType("System.Int16");
@@ -529,10 +535,12 @@ namespace XuLyAnh
             for (int i = 0; i < height; ++i)
             {
                 DataRow dr = dt.NewRow();
-                for (int j = 0; j < width; ++j)
-                {
-                    dr[j] = histogram[i][j];
-                }
+                dr[0] = histogram[i][0];
+                dr[1] = histogram[i][1];
+                dr[2] = String.Format("{0:0.0000}",histogram[i][2]);
+                dr[3] = histogram[i][3];
+                dr[4] = String.Format("{0:0.0000}", histogram[i][4]);
+                dr[5] = histogram[i][5];
                 dt.Rows.Add(dr);
             }
             return dt;

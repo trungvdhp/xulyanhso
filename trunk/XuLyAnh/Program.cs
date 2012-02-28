@@ -14,7 +14,7 @@ namespace XuLyAnh
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frnMain());
+            Application.Run(new frmMain());
         }
     }
 }

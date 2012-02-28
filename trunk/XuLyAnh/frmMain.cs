@@ -383,12 +383,15 @@ namespace XuLyAnh
 
         private void btnDaySang_Click(object sender, EventArgs e)
         {
-            imgInput = imgResult.Copy();
-            btnStatus.Visible = true;
-            dsInput = dsResult.Copy();
-            bmpInput = bmpResult;
-            modified = false;
-            ShowInput();
+            if (dgvResult.Rows.Count > 0)
+            {
+                imgInput = imgResult.Copy();
+                btnStatus.Visible = true;
+                dsInput = dsResult.Copy();
+                bmpInput = bmpResult;
+                modified = false;
+                ShowInput();
+            }
         }
 
         private void SaveImage(Bitmap bmp)
@@ -449,17 +452,25 @@ namespace XuLyAnh
         private void dgvInput_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
         {
             if (btnShowInput.Text == "Xem vùng ảnh nguồn")
-                e.Column.Width = 60;
+            {
+                e.Column.Width = 65;
+            }
             else if (btnShowInput.Text == "Xem Histogram nguồn")
-                e.Column.Width = 45;
+            {
+                e.Column.Width = 40;
+            }
         }
 
         private void dgvResult_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
         {
-            if (btnShowInput.Text == "Xem vùng ảnh kết quả")
-                e.Column.Width = 60;
-            else if (btnShowInput.Text == "Xem Histogram kết quả")
-                e.Column.Width = 45;
+            if (btnShowResult.Text == "Xem vùng ảnh kết quả")
+            {
+                e.Column.Width = 65;
+            }
+            else if (btnShowResult.Text == "Xem Histogram kết quả")
+            {
+                e.Column.Width = 40;
+            }
         }
     }
 }

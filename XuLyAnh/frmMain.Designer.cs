@@ -48,13 +48,11 @@
             this.btnDaySang = new System.Windows.Forms.Button();
             this.btnTaoAnhAmBan = new System.Windows.Forms.Button();
             this.dgvInput = new System.Windows.Forms.DataGridView();
-            this.colAnhNguon = new System.Windows.Forms.DataGridViewImageColumn();
             this.btnStatus = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnLuuAnhKetQua = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.lblInput = new System.Windows.Forms.Label();
-            this.colAnhKetQua = new System.Windows.Forms.DataGridViewImageColumn();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dgvResult = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
@@ -66,6 +64,12 @@
             this.btnGen = new System.Windows.Forms.Button();
             this.nudHeight = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.tbrInputZoom = new System.Windows.Forms.TrackBar();
+            this.colAnhNguon = new System.Windows.Forms.DataGridViewImageColumn();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.tbrResultZoom = new System.Windows.Forms.TrackBar();
+            this.colAnhKetQua = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInput)).BeginInit();
             this.panel4.SuspendLayout();
@@ -80,6 +84,10 @@
             this.splitContainer1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).BeginInit();
+            this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbrInputZoom)).BeginInit();
+            this.panel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbrResultZoom)).BeginInit();
             this.SuspendLayout();
             // 
             // panel2
@@ -104,7 +112,8 @@
             // 
             // btnShowHistogramX
             // 
-            this.btnShowHistogramX.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnShowHistogramX.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnShowHistogramX.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnShowHistogramX.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.btnShowHistogramX.Location = new System.Drawing.Point(13, 451);
@@ -117,7 +126,8 @@
             // 
             // btnShowInput
             // 
-            this.btnShowInput.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnShowInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnShowInput.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnShowInput.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.btnShowInput.Location = new System.Drawing.Point(13, 370);
@@ -130,7 +140,8 @@
             // 
             // btnHistogramSpecification
             // 
-            this.btnHistogramSpecification.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnHistogramSpecification.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnHistogramSpecification.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnHistogramSpecification.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.btnHistogramSpecification.Location = new System.Drawing.Point(13, 206);
@@ -143,7 +154,8 @@
             // 
             // btnLocSacNet
             // 
-            this.btnLocSacNet.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnLocSacNet.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLocSacNet.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnLocSacNet.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.btnLocSacNet.Location = new System.Drawing.Point(13, 329);
@@ -156,7 +168,8 @@
             // 
             // btnLocThongThap
             // 
-            this.btnLocThongThap.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnLocThongThap.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLocThongThap.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnLocThongThap.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.btnLocThongThap.Location = new System.Drawing.Point(13, 288);
@@ -169,7 +182,8 @@
             // 
             // btnLocTrungVi
             // 
-            this.btnLocTrungVi.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnLocTrungVi.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLocTrungVi.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnLocTrungVi.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.btnLocTrungVi.Location = new System.Drawing.Point(13, 247);
@@ -182,7 +196,8 @@
             // 
             // btnShowResult
             // 
-            this.btnShowResult.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnShowResult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnShowResult.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnShowResult.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.btnShowResult.Location = new System.Drawing.Point(13, 410);
@@ -195,7 +210,8 @@
             // 
             // btnCanBangHistogram
             // 
-            this.btnCanBangHistogram.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnCanBangHistogram.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCanBangHistogram.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnCanBangHistogram.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.btnCanBangHistogram.Location = new System.Drawing.Point(13, 165);
@@ -208,7 +224,8 @@
             // 
             // btnDanDoTuongPhan
             // 
-            this.btnDanDoTuongPhan.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnDanDoTuongPhan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDanDoTuongPhan.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnDanDoTuongPhan.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.btnDanDoTuongPhan.Location = new System.Drawing.Point(13, 124);
@@ -221,7 +238,8 @@
             // 
             // btnDaySang
             // 
-            this.btnDaySang.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnDaySang.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDaySang.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnDaySang.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.btnDaySang.Location = new System.Drawing.Point(13, 51);
@@ -234,7 +252,8 @@
             // 
             // btnTaoAnhAmBan
             // 
-            this.btnTaoAnhAmBan.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnTaoAnhAmBan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnTaoAnhAmBan.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnTaoAnhAmBan.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.btnTaoAnhAmBan.Location = new System.Drawing.Point(13, 83);
@@ -296,14 +315,6 @@
             this.dgvInput.DataSourceChanged += new System.EventHandler(this.dgvInput_DataSourceChanged);
             this.dgvInput.ColumnAdded += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvInput_ColumnAdded);
             // 
-            // colAnhNguon
-            // 
-            this.colAnhNguon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colAnhNguon.HeaderText = "Ảnh nguồn";
-            this.colAnhNguon.Name = "colAnhNguon";
-            this.colAnhNguon.Visible = false;
-            this.colAnhNguon.Width = 364;
-            // 
             // btnStatus
             // 
             this.btnStatus.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -363,15 +374,6 @@
             this.lblInput.TabIndex = 0;
             this.lblInput.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // colAnhKetQua
-            // 
-            this.colAnhKetQua.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colAnhKetQua.HeaderText = "Ảnh kết quả";
-            this.colAnhKetQua.Name = "colAnhKetQua";
-            this.colAnhKetQua.ReadOnly = true;
-            this.colAnhKetQua.ToolTipText = "Ảnh kết quả";
-            this.colAnhKetQua.Visible = false;
-            // 
             // splitContainer2
             // 
             this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -389,6 +391,7 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.panel6);
             this.splitContainer2.Panel2.Controls.Add(this.btnLuuAnhKetQua);
             this.splitContainer2.Panel2.Controls.Add(this.dgvResult);
             this.splitContainer2.Panel2.Controls.Add(this.panel3);
@@ -501,6 +504,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.panel5);
             this.splitContainer1.Panel1.Controls.Add(this.btnLuuAnhNguon);
             this.splitContainer1.Panel1.Controls.Add(this.dgvInput);
             this.splitContainer1.Panel1.Controls.Add(this.panel1);
@@ -587,6 +591,73 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Cao:";
             // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.tbrInputZoom);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel5.Location = new System.Drawing.Point(0, 688);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(434, 45);
+            this.panel5.TabIndex = 14;
+            // 
+            // tbrInputZoom
+            // 
+            this.tbrInputZoom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbrInputZoom.AutoSize = false;
+            this.tbrInputZoom.Location = new System.Drawing.Point(3, 3);
+            this.tbrInputZoom.Maximum = 200;
+            this.tbrInputZoom.Minimum = 50;
+            this.tbrInputZoom.Name = "tbrInputZoom";
+            this.tbrInputZoom.Size = new System.Drawing.Size(428, 39);
+            this.tbrInputZoom.TabIndex = 0;
+            this.tbrInputZoom.TickFrequency = 5;
+            this.tbrInputZoom.Value = 100;
+            this.tbrInputZoom.ValueChanged += new System.EventHandler(this.tbrInputZoom_ValueChanged);
+            // 
+            // colAnhNguon
+            // 
+            this.colAnhNguon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colAnhNguon.HeaderText = "Ảnh nguồn";
+            this.colAnhNguon.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.colAnhNguon.Name = "colAnhNguon";
+            this.colAnhNguon.Visible = false;
+            this.colAnhNguon.Width = 364;
+            // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.tbrResultZoom);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel6.Location = new System.Drawing.Point(0, 688);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(438, 45);
+            this.panel6.TabIndex = 18;
+            // 
+            // tbrResultZoom
+            // 
+            this.tbrResultZoom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbrResultZoom.AutoSize = false;
+            this.tbrResultZoom.Location = new System.Drawing.Point(5, 3);
+            this.tbrResultZoom.Maximum = 200;
+            this.tbrResultZoom.Minimum = 50;
+            this.tbrResultZoom.Name = "tbrResultZoom";
+            this.tbrResultZoom.Size = new System.Drawing.Size(428, 39);
+            this.tbrResultZoom.TabIndex = 1;
+            this.tbrResultZoom.TickFrequency = 5;
+            this.tbrResultZoom.Value = 100;
+            this.tbrResultZoom.ValueChanged += new System.EventHandler(this.tbrResultZoom_ValueChanged);
+            // 
+            // colAnhKetQua
+            // 
+            this.colAnhKetQua.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colAnhKetQua.HeaderText = "Ảnh kết quả";
+            this.colAnhKetQua.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.colAnhKetQua.Name = "colAnhKetQua";
+            this.colAnhKetQua.ReadOnly = true;
+            this.colAnhKetQua.ToolTipText = "Ảnh kết quả";
+            this.colAnhKetQua.Visible = false;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -616,6 +687,10 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).EndInit();
+            this.panel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tbrInputZoom)).EndInit();
+            this.panel6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tbrResultZoom)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -635,13 +710,11 @@
         private System.Windows.Forms.Button btnDaySang;
         private System.Windows.Forms.Button btnTaoAnhAmBan;
         private System.Windows.Forms.DataGridView dgvInput;
-        private System.Windows.Forms.DataGridViewImageColumn colAnhNguon;
         private System.Windows.Forms.Button btnStatus;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button btnLuuAnhKetQua;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label lblInput;
-        private System.Windows.Forms.DataGridViewImageColumn colAnhKetQua;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.DataGridView dgvResult;
         private System.Windows.Forms.Label label1;
@@ -653,6 +726,12 @@
         private System.Windows.Forms.Button btnGen;
         private System.Windows.Forms.NumericUpDown nudHeight;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.TrackBar tbrInputZoom;
+        private System.Windows.Forms.DataGridViewImageColumn colAnhNguon;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.TrackBar tbrResultZoom;
+        private System.Windows.Forms.DataGridViewImageColumn colAnhKetQua;
 
     }
 }

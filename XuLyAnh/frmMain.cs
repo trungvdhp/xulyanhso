@@ -24,9 +24,9 @@ namespace XuLyAnh
         ImageProc imgFilter = new ImageProc();
 
         int height=3, width=3;
-        int s1=80, r1=80, s2=125, r2=125;
         int grayLevel = 256;
-        bool modified = false;
+        int[,] d = {{0,0},{255, 255}};
+        bool modified;
 
         public frmMain()
         {
@@ -35,7 +35,7 @@ namespace XuLyAnh
 
         private void frnMain_Load(object sender, EventArgs e)
         {
-            
+            modified = false;
         }
 
         private void dgvInput_DataSourceChanged(object sender, EventArgs e)
@@ -275,8 +275,11 @@ namespace XuLyAnh
                     dgvInput.Columns[0].Visible = true;
                     dgvInput.Rows.Clear();
                     dgvInput.Rows.Add();
-                    dgvInput.Rows[0].Height = dsInput.Tables[0].Rows.Count;
-                    dgvInput.Columns[0].Width = dsInput.Tables[0].Columns.Count;
+                    int height = dsInput.Tables[0].Rows.Count;
+                    int width = dsInput.Tables[0].Columns.Count;
+                    double z = Convert.ToDouble(tbrInputZoom.Value);
+                    dgvInput.Rows[0].Height = (int)(height * z / 100);
+                    dgvInput.Columns[0].Width = (int)(width * z / 100);
                     dgvInput.Rows[0].Cells[0].Value = bmpInput;
                     dgvInput.ReadOnly = true;
                 }
@@ -309,8 +312,11 @@ namespace XuLyAnh
                     dgvResult.Columns[0].Visible = true;
                     dgvResult.Rows.Clear();
                     dgvResult.Rows.Add();
-                    dgvResult.Rows[0].Height = dsResult.Tables[0].Rows.Count;
-                    dgvResult.Columns[0].Width = dsResult.Tables[0].Columns.Count;
+                    int height = dsResult.Tables[0].Rows.Count;
+                    int width = dsResult.Tables[0].Columns.Count;
+                    double z = Convert.ToDouble(tbrResultZoom.Value);
+                    dgvResult.Rows[0].Height = (int)(height * z / 100);
+                    dgvResult.Columns[0].Width = (int)(width * z / 100);
                     dgvResult.Rows[0].Cells[0].Value = bmpResult;
                 }
             }
@@ -318,7 +324,7 @@ namespace XuLyAnh
 
         private void PrepareInput()
         {
-            if (modified == true && imgResult.Matrix != null)
+            if (modified == true && imgResult.Matrix != null && btnShowInput.Text == "Xem Histogram nguồn")
             {
                 imgInput = new ImageProc((DataTable)dgvInput.DataSource);
                 dsInput = imgInput.ToDataSet();
@@ -364,28 +370,21 @@ namespace XuLyAnh
             ChangeInputHistogram();
             PrepareResult();
             ShowResult();
-            lblInput.Text = "Tạo ảnh xám";
+            lblInput.Text = "Tạo ảnh âm bản";
         }
 
         private void btnDanDoTuongPhan_Click(object sender, EventArgs e)
         {
-            frmInputContrast frm = new frmInputContrast();
-            frm.nudS1.Value = s1;
-            frm.nudS2.Value = s2;
-            frm.nudR1.Value = r1;
-            frm.nudR2.Value = r2;
+            frmInputDirectPoint frm = new frmInputDirectPoint(d);
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 PrepareInput();
-                s1 = Convert.ToInt16(frm.nudS1.Value);
-                r1 = Convert.ToInt16(frm.nudR1.Value);
-                s2 = Convert.ToInt16(frm.nudS2.Value);
-                r2 = Convert.ToInt16(frm.nudR2.Value);
-                imgResult = imgInput.ContrastStretching(s1, r1, s2, r2);
+                d = frm.GetOutput();
+                imgResult = imgInput.ContrastStretching(d);
                 ChangeInputHistogram();
                 PrepareResult();
                 ShowResult();
-                lblInput.Text = "Dãn độ tương phản: (S1 ; R1) = (" + s1 + " ; " + r1 + ") ; (S2 ; R2) = (" + s2 + " ; " + r2 + ")";
+                lblInput.Text = "Dãn độ tương phản";
             }
         }
 
@@ -407,7 +406,6 @@ namespace XuLyAnh
 
         private void btnHistogramSpecification_Click(object sender, EventArgs e)
         {
-            frmInputHistogram frm = new frmInputHistogram();
             if (histogramX.Rows.Count == 0)
             {
                 histogramX = imgHistogramX.ToHistogramTable();
@@ -416,7 +414,7 @@ namespace XuLyAnh
                 dr[1] = 1;
                 histogramX.Rows.Add(dr);
             }
-            frm.dgvInputX.DataSource = histogramX.Copy();
+            frmInputHistogram frm = new frmInputHistogram(histogramX.Copy());
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 PrepareInput();
@@ -486,6 +484,36 @@ namespace XuLyAnh
                 PrepareResult();
                 ShowResult();
                 lblInput.Text = "Bộ lọc sắc nét";
+            }
+        }
+
+        private void tbrInputZoom_ValueChanged(object sender, EventArgs e)
+        {
+            if (btnShowInput.Text == "Xem ma trận nguồn")
+            {
+                int height = dsInput.Tables[0].Rows.Count;
+                int width = dsInput.Tables[0].Columns.Count;
+                if (height > 0)
+                {
+                    double z = Convert.ToDouble(tbrInputZoom.Value);
+                    dgvInput.Rows[0].Height = (int)(height * z / 100);
+                    dgvInput.Columns[0].Width = (int)(width * z / 100);
+                }
+            }
+        }
+
+        private void tbrResultZoom_ValueChanged(object sender, EventArgs e)
+        {
+            if (btnShowResult.Text == "Xem ma trận kết quả")
+            {
+                int height = dsResult.Tables[0].Rows.Count;
+                int width = dsResult.Tables[0].Columns.Count;
+                if (height > 0)
+                {
+                    double z = Convert.ToDouble(tbrResultZoom.Value);
+                    dgvResult.Rows[0].Height = (int)(height * z / 100);
+                    dgvResult.Columns[0].Width = (int)(width * z / 100);
+                }
             }
         }
     }

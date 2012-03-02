@@ -48,28 +48,30 @@
             this.btnDaySang = new System.Windows.Forms.Button();
             this.btnTaoAnhAmBan = new System.Windows.Forms.Button();
             this.dgvInput = new System.Windows.Forms.DataGridView();
+            this.colAnhNguon = new System.Windows.Forms.DataGridViewImageColumn();
             this.btnStatus = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnLuuAnhKetQua = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.lblInput = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.tbrResultZoom = new System.Windows.Forms.TrackBar();
             this.dgvResult = new System.Windows.Forms.DataGridView();
+            this.colAnhKetQua = new System.Windows.Forms.DataGridViewImageColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.nudWidth = new System.Windows.Forms.NumericUpDown();
             this.btnLuuAnhNguon = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.tbrInputZoom = new System.Windows.Forms.TrackBar();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnOpen = new System.Windows.Forms.Button();
             this.btnGen = new System.Windows.Forms.Button();
             this.nudHeight = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.tbrInputZoom = new System.Windows.Forms.TrackBar();
-            this.colAnhNguon = new System.Windows.Forms.DataGridViewImageColumn();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.tbrResultZoom = new System.Windows.Forms.TrackBar();
-            this.colAnhKetQua = new System.Windows.Forms.DataGridViewImageColumn();
+            this.nudInputZoom = new System.Windows.Forms.NumericUpDown();
+            this.nudResultZoom = new System.Windows.Forms.NumericUpDown();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInput)).BeginInit();
             this.panel4.SuspendLayout();
@@ -77,17 +79,19 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.panel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbrResultZoom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).BeginInit();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbrInputZoom)).BeginInit();
-            this.panel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tbrResultZoom)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudInputZoom)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudResultZoom)).BeginInit();
             this.SuspendLayout();
             // 
             // panel2
@@ -307,13 +311,22 @@
             this.dgvInput.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvInput.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dgvInput.RowTemplate.Height = 32;
-            this.dgvInput.Size = new System.Drawing.Size(434, 694);
+            this.dgvInput.Size = new System.Drawing.Size(436, 694);
             this.dgvInput.TabIndex = 12;
             this.dgvInput.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInput_CellValueChanged);
             this.dgvInput.CurrentCellChanged += new System.EventHandler(this.dgvInput_CurrentCellChanged);
             this.dgvInput.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvInput_DataError);
             this.dgvInput.DataSourceChanged += new System.EventHandler(this.dgvInput_DataSourceChanged);
             this.dgvInput.ColumnAdded += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvInput_ColumnAdded);
+            // 
+            // colAnhNguon
+            // 
+            this.colAnhNguon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colAnhNguon.HeaderText = "Ảnh nguồn";
+            this.colAnhNguon.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.colAnhNguon.Name = "colAnhNguon";
+            this.colAnhNguon.Visible = false;
+            this.colAnhNguon.Width = 364;
             // 
             // btnStatus
             // 
@@ -361,7 +374,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(438, 39);
+            this.panel3.Size = new System.Drawing.Size(436, 39);
             this.panel3.TabIndex = 15;
             // 
             // lblInput
@@ -370,7 +383,7 @@
             this.lblInput.ForeColor = System.Drawing.Color.Blue;
             this.lblInput.Location = new System.Drawing.Point(0, 0);
             this.lblInput.Name = "lblInput";
-            this.lblInput.Size = new System.Drawing.Size(436, 37);
+            this.lblInput.Size = new System.Drawing.Size(434, 37);
             this.lblInput.TabIndex = 0;
             this.lblInput.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -395,10 +408,36 @@
             this.splitContainer2.Panel2.Controls.Add(this.btnLuuAnhKetQua);
             this.splitContainer2.Panel2.Controls.Add(this.dgvResult);
             this.splitContainer2.Panel2.Controls.Add(this.panel3);
-            this.splitContainer2.Size = new System.Drawing.Size(576, 735);
+            this.splitContainer2.Size = new System.Drawing.Size(574, 735);
             this.splitContainer2.SplitterDistance = 134;
             this.splitContainer2.SplitterWidth = 2;
             this.splitContainer2.TabIndex = 0;
+            // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.nudResultZoom);
+            this.panel6.Controls.Add(this.tbrResultZoom);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel6.Location = new System.Drawing.Point(0, 688);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(436, 45);
+            this.panel6.TabIndex = 18;
+            // 
+            // tbrResultZoom
+            // 
+            this.tbrResultZoom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbrResultZoom.AutoSize = false;
+            this.tbrResultZoom.Location = new System.Drawing.Point(3, 12);
+            this.tbrResultZoom.Maximum = 200;
+            this.tbrResultZoom.Minimum = 25;
+            this.tbrResultZoom.Name = "tbrResultZoom";
+            this.tbrResultZoom.Size = new System.Drawing.Size(370, 31);
+            this.tbrResultZoom.TabIndex = 1;
+            this.tbrResultZoom.TickFrequency = 5;
+            this.tbrResultZoom.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.tbrResultZoom.Value = 100;
+            this.tbrResultZoom.ValueChanged += new System.EventHandler(this.tbrResultZoom_ValueChanged);
             // 
             // dgvResult
             // 
@@ -441,17 +480,27 @@
             this.dgvResult.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvResult.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dgvResult.RowTemplate.Height = 32;
-            this.dgvResult.Size = new System.Drawing.Size(438, 694);
+            this.dgvResult.Size = new System.Drawing.Size(436, 694);
             this.dgvResult.TabIndex = 17;
             this.dgvResult.CurrentCellChanged += new System.EventHandler(this.dgvResult_CurrentCellChanged);
             this.dgvResult.DataSourceChanged += new System.EventHandler(this.dgvResult_DataSourceChanged);
             this.dgvResult.ColumnAdded += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvResult_ColumnAdded);
             // 
+            // colAnhKetQua
+            // 
+            this.colAnhKetQua.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colAnhKetQua.HeaderText = "Ảnh kết quả";
+            this.colAnhKetQua.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.colAnhKetQua.Name = "colAnhKetQua";
+            this.colAnhKetQua.ReadOnly = true;
+            this.colAnhKetQua.ToolTipText = "Ảnh kết quả";
+            this.colAnhKetQua.Visible = false;
+            // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 10);
+            this.label1.Location = new System.Drawing.Point(24, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(39, 14);
             this.label1.TabIndex = 0;
@@ -460,7 +509,7 @@
             // nudWidth
             // 
             this.nudWidth.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.nudWidth.Location = new System.Drawing.Point(71, 8);
+            this.nudWidth.Location = new System.Drawing.Point(72, 8);
             this.nudWidth.Maximum = new decimal(new int[] {
             654,
             0,
@@ -513,9 +562,35 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(1014, 735);
-            this.splitContainer1.SplitterDistance = 436;
+            this.splitContainer1.SplitterDistance = 438;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.nudInputZoom);
+            this.panel5.Controls.Add(this.tbrInputZoom);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel5.Location = new System.Drawing.Point(0, 688);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(436, 45);
+            this.panel5.TabIndex = 14;
+            // 
+            // tbrInputZoom
+            // 
+            this.tbrInputZoom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbrInputZoom.AutoSize = false;
+            this.tbrInputZoom.Location = new System.Drawing.Point(3, 12);
+            this.tbrInputZoom.Maximum = 200;
+            this.tbrInputZoom.Minimum = 25;
+            this.tbrInputZoom.Name = "tbrInputZoom";
+            this.tbrInputZoom.Size = new System.Drawing.Size(370, 31);
+            this.tbrInputZoom.TabIndex = 13;
+            this.tbrInputZoom.TickFrequency = 5;
+            this.tbrInputZoom.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.tbrInputZoom.Value = 100;
+            this.tbrInputZoom.ValueChanged += new System.EventHandler(this.tbrInputZoom_ValueChanged);
             // 
             // panel1
             // 
@@ -529,14 +604,14 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(434, 39);
+            this.panel1.Size = new System.Drawing.Size(436, 39);
             this.panel1.TabIndex = 11;
             // 
             // btnOpen
             // 
             this.btnOpen.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnOpen.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnOpen.Location = new System.Drawing.Point(361, 8);
+            this.btnOpen.Location = new System.Drawing.Point(362, 8);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(47, 20);
             this.btnOpen.TabIndex = 2;
@@ -548,7 +623,7 @@
             // 
             this.btnGen.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnGen.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnGen.Location = new System.Drawing.Point(271, 8);
+            this.btnGen.Location = new System.Drawing.Point(272, 8);
             this.btnGen.Name = "btnGen";
             this.btnGen.Size = new System.Drawing.Size(84, 20);
             this.btnGen.TabIndex = 2;
@@ -559,7 +634,7 @@
             // nudHeight
             // 
             this.nudHeight.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.nudHeight.Location = new System.Drawing.Point(195, 8);
+            this.nudHeight.Location = new System.Drawing.Point(196, 8);
             this.nudHeight.Maximum = new decimal(new int[] {
             768,
             0,
@@ -585,78 +660,61 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(154, 10);
+            this.label2.Location = new System.Drawing.Point(155, 10);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 14);
             this.label2.TabIndex = 0;
             this.label2.Text = "Cao:";
             // 
-            // panel5
+            // nudInputZoom
             // 
-            this.panel5.Controls.Add(this.tbrInputZoom);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(0, 688);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(434, 45);
-            this.panel5.TabIndex = 14;
+            this.nudInputZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudInputZoom.Location = new System.Drawing.Point(375, 12);
+            this.nudInputZoom.Maximum = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+            this.nudInputZoom.Minimum = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
+            this.nudInputZoom.Name = "nudInputZoom";
+            this.nudInputZoom.Size = new System.Drawing.Size(50, 22);
+            this.nudInputZoom.TabIndex = 14;
+            this.nudInputZoom.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudInputZoom.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.nudInputZoom.ValueChanged += new System.EventHandler(this.nudInputZoom_ValueChanged);
             // 
-            // tbrInputZoom
+            // nudResultZoom
             // 
-            this.tbrInputZoom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbrInputZoom.AutoSize = false;
-            this.tbrInputZoom.Location = new System.Drawing.Point(3, 3);
-            this.tbrInputZoom.Maximum = 200;
-            this.tbrInputZoom.Minimum = 50;
-            this.tbrInputZoom.Name = "tbrInputZoom";
-            this.tbrInputZoom.Size = new System.Drawing.Size(428, 39);
-            this.tbrInputZoom.TabIndex = 0;
-            this.tbrInputZoom.TickFrequency = 5;
-            this.tbrInputZoom.Value = 100;
-            this.tbrInputZoom.ValueChanged += new System.EventHandler(this.tbrInputZoom_ValueChanged);
-            // 
-            // colAnhNguon
-            // 
-            this.colAnhNguon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colAnhNguon.HeaderText = "Ảnh nguồn";
-            this.colAnhNguon.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.colAnhNguon.Name = "colAnhNguon";
-            this.colAnhNguon.Visible = false;
-            this.colAnhNguon.Width = 364;
-            // 
-            // panel6
-            // 
-            this.panel6.Controls.Add(this.tbrResultZoom);
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel6.Location = new System.Drawing.Point(0, 688);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(438, 45);
-            this.panel6.TabIndex = 18;
-            // 
-            // tbrResultZoom
-            // 
-            this.tbrResultZoom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbrResultZoom.AutoSize = false;
-            this.tbrResultZoom.Location = new System.Drawing.Point(5, 3);
-            this.tbrResultZoom.Maximum = 200;
-            this.tbrResultZoom.Minimum = 50;
-            this.tbrResultZoom.Name = "tbrResultZoom";
-            this.tbrResultZoom.Size = new System.Drawing.Size(428, 39);
-            this.tbrResultZoom.TabIndex = 1;
-            this.tbrResultZoom.TickFrequency = 5;
-            this.tbrResultZoom.Value = 100;
-            this.tbrResultZoom.ValueChanged += new System.EventHandler(this.tbrResultZoom_ValueChanged);
-            // 
-            // colAnhKetQua
-            // 
-            this.colAnhKetQua.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colAnhKetQua.HeaderText = "Ảnh kết quả";
-            this.colAnhKetQua.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.colAnhKetQua.Name = "colAnhKetQua";
-            this.colAnhKetQua.ReadOnly = true;
-            this.colAnhKetQua.ToolTipText = "Ảnh kết quả";
-            this.colAnhKetQua.Visible = false;
+            this.nudResultZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudResultZoom.Location = new System.Drawing.Point(375, 12);
+            this.nudResultZoom.Maximum = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+            this.nudResultZoom.Minimum = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
+            this.nudResultZoom.Name = "nudResultZoom";
+            this.nudResultZoom.Size = new System.Drawing.Size(50, 22);
+            this.nudResultZoom.TabIndex = 14;
+            this.nudResultZoom.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudResultZoom.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.nudResultZoom.ValueChanged += new System.EventHandler(this.nudResultZoom_ValueChanged);
             // 
             // frmMain
             // 
@@ -679,18 +737,20 @@
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.ResumeLayout(false);
+            this.panel6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tbrResultZoom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResult)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tbrInputZoom)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).EndInit();
-            this.panel5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tbrInputZoom)).EndInit();
-            this.panel6.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tbrResultZoom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudInputZoom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudResultZoom)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -732,6 +792,8 @@
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.TrackBar tbrResultZoom;
         private System.Windows.Forms.DataGridViewImageColumn colAnhKetQua;
+        private System.Windows.Forms.NumericUpDown nudInputZoom;
+        private System.Windows.Forms.NumericUpDown nudResultZoom;
 
     }
 }

@@ -489,6 +489,7 @@ namespace XuLyAnh
 
         private void tbrInputZoom_ValueChanged(object sender, EventArgs e)
         {
+            nudInputZoom.Value = tbrInputZoom.Value;
             if (btnShowInput.Text == "Xem ma trận nguồn")
             {
                 int height = dsInput.Tables[0].Rows.Count;
@@ -504,6 +505,7 @@ namespace XuLyAnh
 
         private void tbrResultZoom_ValueChanged(object sender, EventArgs e)
         {
+            nudResultZoom.Value = tbrResultZoom.Value;
             if (btnShowResult.Text == "Xem ma trận kết quả")
             {
                 int height = dsResult.Tables[0].Rows.Count;
@@ -515,6 +517,16 @@ namespace XuLyAnh
                     dgvResult.Columns[0].Width = (int)(width * z / 100);
                 }
             }
+        }
+
+        private void nudInputZoom_ValueChanged(object sender, EventArgs e)
+        {
+            tbrInputZoom.Value = (int)nudInputZoom.Value;
+        }
+
+        private void nudResultZoom_ValueChanged(object sender, EventArgs e)
+        {
+            tbrResultZoom.Value = (int)nudResultZoom.Value;
         }
     }
 }

@@ -303,19 +303,37 @@ namespace XuLyAnh
                 return (int)Math.Round(((s2 * 255 - 255 * r2) + (255 - s2) * r) * 1.0/ (255 - r2));
         }
 
-        public ImageProc ContrastStretching(int s1, int r1, int s2, int r2)
+        public ImageProc ContrastStretching(int[,] d)
         {
             ImageProc imgResult = this.Clone();
             int height = matrix.GetLength(0);
             int width = matrix.GetLength(1);
-            int k;
+            int n = d.GetLength(0);
+            int[] c = new int[256];
+            int[] dr = new int[n-1];
+            int[] ds = new int[n-1];
+            for(int i=1; i<n; ++i)
+            {
+                dr[i-1] = d[i, 0] - d[i-1, 0];
+                ds[i-1] = d[i, 1] - d[i-1, 1];
+            }
+            for (int i = 0; i < 256; ++i)
+            {
+                for(int j=1; j<n; ++j)
+                {
+                    if (i <= d[j, 0])
+                    {
+                        c[i] = (int)(Math.Round((i - d[j-1, 0])*ds[j-1]*1.0/dr[j-1] + d[j-1, 1]));
+                        histogram[i, 4] = c[i];
+                        break;
+                    }
+                }
+            }
             for (int i = 0; i < height; ++i)
             {
                 for (int j = 0; j < width; ++j)
                 {
-                    k = GetS(s1, r1, s2, r2, matrix[i,j]);
-                    histogram[matrix[i,j], 4] = k;
-                    imgResult.matrix[i,j] = k;
+                    imgResult.matrix[i, j] = c[matrix[i, j]];
                 }
             }
             imgResult.CalHistogram();
@@ -326,6 +344,7 @@ namespace XuLyAnh
         {
             ImageProc imgResult = this.Clone();
             int width = matrix.GetLength(1);
+            int height = matrix.GetLength(0);
 
             for (int i = 0; i < 256; ++i)
             {
@@ -333,7 +352,6 @@ namespace XuLyAnh
                     histogram[i, 4] = (int)Math.Round(histogram[i, 3]* (L - 1));
             }
 
-            int height = matrix.GetLength(0);
             for (int i = 0; i < height; ++i)
             {
                 for (int j = 0; j < width; ++j)
@@ -356,6 +374,7 @@ namespace XuLyAnh
         {
             ImageProc imgResult = this.Clone();
             int height = matrix.GetLength(0);
+            if (height == 0) return imgResult;
             int width = matrix.GetLength(1);
             double min, y, rs=0;
             for (int i = 0; i < 256; ++i)
@@ -367,7 +386,7 @@ namespace XuLyAnh
                     {
                         if(h.histogram[j, 0] != 0)
                         {
-                            if ((y = Math.Abs(histogram[i, 3] - h.histogram[i, 3])) < min)
+                            if ((y = Math.Abs(histogram[i, 3] - h.histogram[j, 3])) < min)
                             {
                                 min = y;
                                 rs = j;
@@ -396,7 +415,7 @@ namespace XuLyAnh
             ImageProc imgResult = this.Clone();
             int Height = matrix.GetLength(0);
             int Width = matrix.GetLength(1);
-            if (Height == 0 || Width == 0) return imgResult;
+            if (Height == 0) return imgResult;
             int height = m.matrix.GetLength(0);
             int width = m.matrix.GetLength(1);
             int h = Height - height + 1;
@@ -460,7 +479,7 @@ namespace XuLyAnh
             ImageProc imgResult = this.Clone();
             int Height = matrix.GetLength(0);
             int Width = matrix.GetLength(1);
-            if (Height == 0 || Width == 0) return imgResult;
+            if (Height == 0) return imgResult;
             int height = m.matrix.GetLength(0);
             int width = m.matrix.GetLength(1);
             int h = Height - height + 1;
@@ -518,6 +537,7 @@ namespace XuLyAnh
         {
             int height = matrix.GetLength(0);
             int width = matrix.GetLength(1);
+            if (height == 0) return null;
             Bitmap newBitmap = new Bitmap(width, height);
             Color newColor;
             int k;

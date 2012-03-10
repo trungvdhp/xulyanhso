@@ -11,23 +11,37 @@ namespace XuLyAnh
 {
     public partial class frmMain : Form
     {
+        #region Khai báo biến
+        //Khai báo DataSet chứa dữ liệu vùng ảnh đầu vào
         DataSet dsInput = new DataSet();
+        //Khai báo DataSet chứa dữ liệu vùng ảnh kết quả
         DataSet dsResult = new DataSet();
+        //Khai báo DataTable chứa dữ liệu Histogram X dùng trong xử lý Matching
         DataTable histogramX = new DataTable();
+        //Khai báo DataTable chứa dữ liệu Matrix bộ lọc
         DataTable filter = new DataTable();
-
+        //Khai báo ảnh Bitmap đầu vào
         Bitmap bmpInput;
+        //Khai báo ảnh Bitmap kết quả
         Bitmap bmpResult;
+        //Khai báo ImageProc đầu vào
         ImageProc imgInput = new ImageProc();
+        //Khai báo ImageProc kết quả
         ImageProc imgResult = new ImageProc();
+        //Khai báo ImageProc chứa dữ liệu Histogram X dùng trong xử lý Matching
         ImageProc imgHistogramX = new ImageProc();
+        //Khai báo ImageProc chứa dữ liệu Matrix bộ lọc
         ImageProc imgFilter = new ImageProc();
-
-        int height=3, width=3;
+        //Khai báo kích thước của bộ lọc trung vị
+        int height = 3, width = 3;
+        //Khai báo số mức xám dùng trong xử lý cân bằng Histogram
         int grayLevel = 256;
-        int[,] d = {{0,0},{255, 255}};
+        //Khai báo mảng hai chiều chứa các điểm điều khiển dùng trong dãn độ tương phản
+        int[,] d = { { 0, 0 }, { 255, 255 } };
+        //Khai báo biến tình trạng, nếu bằng True nghĩa là đã có sự thay đổi các dữ liệu đầu vào, ngược lại là không.
         bool modified;
-
+        #endregion
+        #region Khởi tạo các thành phần
         public frmMain()
         {
             InitializeComponent();
@@ -37,7 +51,8 @@ namespace XuLyAnh
         {
             modified = false;
         }
-
+        #endregion
+        #region Các sự kiện trên DataGridView
         private void dgvInput_DataSourceChanged(object sender, EventArgs e)
         {
             for (int i = 0; i < dgvInput.ColumnCount; ++i)
@@ -116,13 +131,8 @@ namespace XuLyAnh
             {
             }
         }
-
-        private void nudWidth_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-                btnGen.PerformClick();
-        }
-
+        #endregion
+        #region Mở và lưu ảnh
         private void btnShowHistogramX_Click(object sender, EventArgs e)
         {
             frmShowHistogram frm = new frmShowHistogram();
@@ -144,19 +154,6 @@ namespace XuLyAnh
                 nudWidth.Value = imgInput.Matrix.GetLength(1);
                 dsInput = imgInput.ToDataSet();
                 bmpInput = imgInput.ToBitmap();
-                modified = false;
-                ShowInput();
-            }
-        }
-
-        private void btnDaySang_Click(object sender, EventArgs e)
-        {
-            if (dgvResult.Rows.Count > 0)
-            {
-                imgInput = imgResult.Copy();
-                btnStatus.Visible = true;
-                dsInput = dsResult.Copy();
-                bmpInput = bmpResult;
                 modified = false;
                 ShowInput();
             }
@@ -215,6 +212,26 @@ namespace XuLyAnh
         private void btnLuuAnhKetQua_Click(object sender, EventArgs e)
         {
             SaveImage(bmpResult);
+        }
+        #endregion
+        #region Sinh và hiển thị ảnh
+        private void nudWidth_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                btnGen.PerformClick();
+        }
+
+        private void btnDaySang_Click(object sender, EventArgs e)
+        {
+            if (dgvResult.Rows.Count > 0)
+            {
+                imgInput = imgResult.Copy();
+                btnStatus.Visible = true;
+                dsInput = dsResult.Copy();
+                bmpInput = bmpResult;
+                modified = false;
+                ShowInput();
+            }
         }
 
         private void btnShowInput_Click(object sender, EventArgs e)
@@ -288,7 +305,7 @@ namespace XuLyAnh
 
         private void ShowResult()
         {
-            if (dsInput.Tables.Count > 0 && imgResult.Matrix != null && dsResult.Tables.Count>0)
+            if (dsInput.Tables.Count > 0 && imgResult.Matrix != null && dsResult.Tables.Count > 0)
             {
                 if (btnShowInput.Text == "Xem vùng ảnh nguồn")
                 {
@@ -362,7 +379,8 @@ namespace XuLyAnh
             modified = false;
             ShowInput();
         }
-
+        #endregion
+        #region Các nút xử lý ảnh
         private void btnTaoAnhAmBan_Click(object sender, EventArgs e)
         {
             PrepareInput();
@@ -486,7 +504,8 @@ namespace XuLyAnh
                 lblInput.Text = "Bộ lọc sắc nét";
             }
         }
-
+        #endregion
+        #region Các sự kiện thay đổi kích thước vùng ảnh
         private void tbrInputZoom_ValueChanged(object sender, EventArgs e)
         {
             nudInputZoom.Value = tbrInputZoom.Value;
@@ -528,5 +547,6 @@ namespace XuLyAnh
         {
             tbrResultZoom.Value = (int)nudResultZoom.Value;
         }
+        #endregion
     }
 }

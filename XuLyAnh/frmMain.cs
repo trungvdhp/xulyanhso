@@ -133,14 +133,6 @@ namespace XuLyAnh
         }
         #endregion
         #region Mở và lưu ảnh
-        private void btnShowHistogramX_Click(object sender, EventArgs e)
-        {
-            frmShowHistogram frm = new frmShowHistogram();
-            frm.dgvHistogram.DataSource = histogramX;
-            frm.Text += " X";
-            frm.ShowDialog();
-        }
-
         private void btnOpen_Click(object sender, EventArgs e)
         {
             OpenFileDialog op = new OpenFileDialog();
@@ -268,6 +260,14 @@ namespace XuLyAnh
                 btnShowResult.Text = "Xem ma trận kết quả";
             }
             ShowResult();
+        }
+
+        private void btnShowHistogramX_Click(object sender, EventArgs e)
+        {
+            frmShowHistogram frm = new frmShowHistogram();
+            frm.dgvHistogram.DataSource = histogramX;
+            frm.Text += " X";
+            frm.ShowDialog();
         }
 
         private void ShowInput()

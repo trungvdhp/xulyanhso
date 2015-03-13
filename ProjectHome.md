@@ -1,0 +1,1 @@
+Phần mềm mô phỏng các thuật toán xử lý ảnh số
